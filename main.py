@@ -17,6 +17,7 @@ with open(filepath) as fp:
        line = fp.readline()
 
 
+
 #sort the teams by level
 teams= sorted(teams.items(), key=lambda x: x[1], reverse=True)
 
@@ -31,5 +32,9 @@ for i in range(0, len(teams), 8):
 groups= [Group(group_teams[i]) for i in range(8)]
 
 #GUI
+
+from gui import wide
+
+wide(groups)
 
 #CUP
