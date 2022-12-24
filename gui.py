@@ -62,7 +62,7 @@ def wide(groups):
         entries= []
         for i in range(6):
             l = tk.Label(frame,text=f'{groups[id].matches[i][0]} VS {groups[id].matches[i][1]}',font=('Helvetica bold', 22)).place(x=200 + (400) * (i //3), y=40+120*(i%3))
-            e = tk.Entry(frame,width=20)
+            e = tk.Entry(frame,width=20,font=('Helvetica bold', 26))
             e.place(x=200 + (400) * (i //3), y=100+120*(i%3),height=50,width=300)
             entries.append(e)
         
