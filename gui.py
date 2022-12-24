@@ -54,17 +54,29 @@ def wide(groups):
 
 
     #==================Frame 2 code
-
+    qualified_teams= []
     def groupFrame(id, parent_frame):
         show_frame(parent_frame)
         frame = tk.LabelFrame(parent_frame, text=f'Group {id+1}').place(x=120, y=100)
+
+        entries= []
         for i in range(6):
             l = tk.Label(frame,text=f'{groups[id].matches[i][0]} VS {groups[id].matches[i][1]}',font=('Helvetica bold', 26)).place(x=350 + (400) * (i //3), y=20+120*(i%3))
             e = tk.Entry(frame,width=20)
             e.place(x=350 + (400)*(i // 3), y=60+120*(i%3))
+            entries.append(e)
+        
+        def play(id):
+            for i in range(6):
+                result = entries[i].get().split('-')
+                groups[id].play(groups[id].matches[i], result)
+            
+            qualified_teams.append(groups[id].top()[0][0])
+            qualified_teams.append(groups[id].top()[1][0])
+            show_frame(frame2)
+   
         b = tk.Button(frame,text='Play',font=('Helvetica bold', 26),command=lambda:play(id)).place(x=350, y=600)
-        b = tk.Button(frame,text='Next',font=('Helvetica bold', 26),command=lambda:show_frame(frame3)).place(x=350, y=700)
-        b = tk.Button(frame,text='Back',font=('Helvetica bold', 26),command=lambda:show_frame(frame2)).place(x=350, y=750)
+        b = tk.Button(frame,text='Back',font=('Helvetica bold', 26),command=lambda:show_frame(frame2)).place(x=500, y=600)
 
     
 
