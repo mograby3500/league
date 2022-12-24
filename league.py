@@ -12,10 +12,15 @@ class Group:
 
     
     def play(self, match, result):
-        self.points[match[0]] += result[0]
-        self.points[match[1]] += result[1]
+        if result[0] > result[1]:
+            self.points[match[0]] += 3
+        elif result[0] < result[1]:
+            self.points[match[1]] += 3
+        else:
+            self.points[match[0]] += 1
+            self.points[match[1]] += 1
     
-    def top(self):      
+    def top(self):
         return sorted(self.points.items(), key=lambda x: x[1], reverse=True)[:2]
 
 

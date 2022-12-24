@@ -28,6 +28,8 @@ for i in range(0, len(teams), 8):
     for j in range(8):
         group_teams[j].append(L[j][0])
 
-
-
 groups= [Group(group_teams[i]) for i in range(8)]
+
+#GUI
+
+#CUP
