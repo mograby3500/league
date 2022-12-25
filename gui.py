@@ -1,8 +1,5 @@
 def wide(groups):
     import tkinter as tk
-
-    def show_frame(frame):
-        frame.tkraise()
         
     root = tk.Tk()
     root.title('World Cup')
@@ -16,14 +13,13 @@ def wide(groups):
     frame3 = tk.Frame(root)
     frame4 = tk.Frame(root)
     frame5 = tk.Frame(root)
-    frame6 = tk.Frame(root)
-    frame7 = tk.Frame(root)
 
-    for frame in (frame1, frame2, frame3, frame4, frame5, frame6, frame7):
+
+    for frame in (frame1, frame2, frame3, frame4, frame5):
         frame.grid(row=0,column=0,sticky='nsew')
 
-
-
+    def show_frame(frame):
+            frame.tkraise()
 
 
         
@@ -34,19 +30,10 @@ def wide(groups):
 
 
     button1 = tk.Button(frame1,text='Group Stage',font=('Helvetica bold', 26),command=lambda:show_frame(frame2))
-    button1.place(x=320, y=270, height=100, width=400)
+    button1.place(x=320, y=330, height=100, width=400)
 
     button2 = tk.Button(frame1,text='Knockout Stage',font=('Helvetica bold', 26),state='disabled')
-    button2.place(x=320, y=390, height=100, width=400)
-
-    button3 = tk.Button(frame1,text='Show Winners',font=('Helvetica bold', 26),state='disabled')
-    button3.place(x=320, y=510, height=100, width=400)
-
-
-
-
-
-
+    button2.place(x=320, y=490, height=100, width=400)
 
 
 
@@ -82,10 +69,10 @@ def wide(groups):
 
     #create buttons for each group in groups
     for i in range(4):
-        b = tk.Button(frame2,text=f'Group {i+1}',font=('Helvetica bold', 26),command=lambda i=i:groupFrame(i, frame7)).place(x=350, y=150+120*i)
+        b = tk.Button(frame2,text=f'Group {i+1}',font=('Helvetica bold', 26),command=lambda i=i:groupFrame(i, frame5)).place(x=350, y=150+120*i)
     
     for i in range(4, 8):
-        b = tk.Button(frame2,text=f'Group {i+1}',font=('Helvetica bold', 26),command=lambda i=i:groupFrame(i, frame7)).place(x=350 + 200, y=150+120*(i-4))
+        b = tk.Button(frame2,text=f'Group {i+1}',font=('Helvetica bold', 26),command=lambda i=i:groupFrame(i, frame5)).place(x=350 + 200, y=150+120*(i-4))
 
     frame2_txt = tk.Label(frame2,text='Choose A Group',font=('Helvetica bold', 36)).place(x=350,y=30)
     frame2_btn = tk.Button(frame2, text='Next',command=lambda:show_frame(frame3)).pack(fill='x', ipady=25,side='bottom')
@@ -96,29 +83,17 @@ def wide(groups):
 
 
 
-
-
-
-
     #==================Frame 3 code
+
     text3 = tk.Label(frame3,text='Welcome to World Cup App',font=('Helvetica bold', 48)).place(x=140, y=100)
     text4 = tk.Label(frame1,text='Please Choose',font=('Helvetica bold', 26)).place(x=400, y=200)
 
 
     button4 = tk.Button(frame3,text='Group Stage',font=('Helvetica bold', 26),command=lambda:show_frame(frame2))
-    button4.place(x=320, y=270, height=100, width=400)
+    button4.place(x=320, y=330, height=100, width=400)
 
     button5 = tk.Button(frame3,text='Knockout Stage',font=('Helvetica bold', 26),command=lambda:showKnockout(Cup(qualified_teams)))
-    button5.place(x=320, y=390, height=100, width=400)
-
-    button6 = tk.Button(frame3,text='Show Winners',font=('Helvetica bold', 26),state='disabled')
-    button6.place(x=320, y=510, height=100, width=400)
-
-
-
-
-
-
+    button5.place(x=320, y=490, height=100, width=400)
 
 
 
@@ -127,27 +102,18 @@ def wide(groups):
 
 
     #==================Frame 4 code
-    # frame4_title=  tk.Label(frame4, text='KnockOut', font='times 35', bg='yellow')
-    # frame4_title.pack(fill='both', expand=True)
-
-    # frame2_btn = tk.Button(frame4, text='Next',command=lambda:show_frame(frame5)).pack(fill='x', ipady=15)
-
-
-
-
     from cup import Cup
     def showKnockout(cup):
         currentFrame= tk.Frame(root)
         currentFrame.grid(row=0,column=0,sticky='nsew')
         currentFrame.tkraise()
 
-        frame4_title=  tk.Label(currentFrame, text='KnockOut', font='times 35', bg='yellow')
         entries = []
         for i in range(len(cup.matches)):
-            tk.Label(currentFrame, text=f'{cup.matches[i][0]} VS {cup.matches[i][1]}', font='times 25').place(x=200, y=50*(i+4))
+            tk.Label(currentFrame, text=f'{cup.matches[i][0]} VS {cup.matches[i][1]}', font='times 25').place(x=200, y=40*(i+4))
             #Enter result
             e = tk.Entry(currentFrame,width=20, font='times 25')
-            e.place(x=700, y=50*(i+4),height=50,width=300)
+            e.place(x=700, y=40*(i+4),height=50,width=300)
             entries.append(e)
         
         def play():
@@ -161,44 +127,15 @@ def wide(groups):
                 showKnockout(cup)
             else:
                 #show winner
-                tk.Label(currentFrame, text=f'Winner: {cup.winner()}', font='times 25').place(x=200, y=150+50*(len(cup.matches)+4))
+                tk.Label(currentFrame, text=f'Winner: {cup.winner()}', font=('times', 48)).place(x=330, y=400)
                 button6.config(state='normal')
                 button6.config(command=lambda:show_frame(frame5))
             
-        #button play
-        tk.Button(currentFrame, text='Play', font='times 25', command=play).place(x=200, y=150+50*(len(cup.matches)+4))
+        #next button
+        tk.Button(currentFrame, text='Next', font='times 25', command=play).pack(fill='x', ipady=25,side='bottom')
 
-
-    #==================Frame 5 code
-    text5 = tk.Label(frame5,text='Welcome to World Cup App',font=('Helvetica bold', 48)).place(x=140, y=100)
-    text6 = tk.Label(frame5,text='Please Choose',font=('Helvetica bold', 26)).place(x=400, y=200)
-
-
-    button7 = tk.Button(frame5,text='Group Stage',font=('Helvetica bold', 26),command=lambda:show_frame(frame2))
-    button7.place(x=320, y=270, height=100, width=400)
-
-    button8 = tk.Button(frame5,text='Knockout Stage',font=('Helvetica bold', 26),command=lambda:showKnockout(Cup(qualified_teams)))
-    button8.place(x=320, y=390, height=100, width=400)
-
-    button9 = tk.Button(frame5,text='Show Winners',font=('Helvetica bold', 26),command=lambda:show_frame(frame6))
-    button9.place(x=320, y=510, height=100, width=400)
-
-
-
-
-
-
-
-
-
-
-
-
-    #==================Frame 6 code
-    frame6_title=  tk.Label(frame6, text='Winners', font='times 35', bg='yellow')
-    frame6_title.pack(fill='both', expand=True)
-
-    frame6_btn = tk.Button(frame6, text='Back',command=lambda:show_frame(frame5)).pack(fill='x', ipady=15)
+        #back button
+        tk.Button(currentFrame, text='Back', font='times 25', command=lambda:show_frame(frame3)).place(x='20',y='20')
 
 
     show_frame(frame1)
