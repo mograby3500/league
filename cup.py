@@ -16,8 +16,9 @@ class Cup:
 
         #reset matches
         self.matches = []
-        for i in range(0, len(self.teams), 2):
-            self.matches.append((self.teams[i], self.teams[i + 1]))
+        if len(self.teams) > 1:
+            for i in range(0, len(self.teams), 2):
+                self.matches.append((self.teams[i], self.teams[i + 1]))
 
     def winner(self):
         return self.teams[0]

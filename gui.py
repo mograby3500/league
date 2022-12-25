@@ -62,7 +62,7 @@ def wide(groups):
         entries= []
         for i in range(6):
             l = tk.Label(frame,text=f'{groups[id].matches[i][0]} VS {groups[id].matches[i][1]}',font=('Helvetica bold', 22)).place(x=200 + (400) * (i //3), y=40+120*(i%3))
-            e = tk.Entry(frame,width=20)
+            e = tk.Entry(frame,width=20, font=('Helvetica bold', 26))
             e.place(x=200 + (400) * (i //3), y=100+120*(i%3),height=50,width=300)
             entries.append(e)
         
@@ -108,7 +108,7 @@ def wide(groups):
     button4 = tk.Button(frame3,text='Group Stage',font=('Helvetica bold', 26),command=lambda:show_frame(frame2))
     button4.place(x=320, y=270, height=100, width=400)
 
-    button5 = tk.Button(frame3,text='Knockout Stage',font=('Helvetica bold', 26),command=lambda:show_frame(frame4))
+    button5 = tk.Button(frame3,text='Knockout Stage',font=('Helvetica bold', 26),command=lambda:showKnockout(Cup(qualified_teams)))
     button5.place(x=320, y=390, height=100, width=400)
 
     button6 = tk.Button(frame3,text='Show Winners',font=('Helvetica bold', 26),state='disabled')
@@ -127,18 +127,46 @@ def wide(groups):
 
 
     #==================Frame 4 code
-    frame4_title=  tk.Label(frame4, text='KnockOut', font='times 35', bg='yellow')
-    frame4_title.pack(fill='both', expand=True)
+    # frame4_title=  tk.Label(frame4, text='KnockOut', font='times 35', bg='yellow')
+    # frame4_title.pack(fill='both', expand=True)
 
-    frame2_btn = tk.Button(frame4, text='Next',command=lambda:show_frame(frame5)).pack(fill='x', ipady=15)
-
-
+    # frame2_btn = tk.Button(frame4, text='Next',command=lambda:show_frame(frame5)).pack(fill='x', ipady=15)
 
 
 
 
+    from cup import Cup
+    def showKnockout(cup):
+        currentFrame= tk.Frame(root)
+        currentFrame.grid(row=0,column=0,sticky='nsew')
+        currentFrame.tkraise()
 
-
+        frame4_title=  tk.Label(currentFrame, text='KnockOut', font='times 35', bg='yellow')
+        entries = []
+        for i in range(len(cup.matches)):
+            tk.Label(currentFrame, text=f'{cup.matches[i][0]} VS {cup.matches[i][1]}', font='times 25').place(x=200, y=50*(i+4))
+            #Enter result
+            e = tk.Entry(currentFrame,width=20, font='times 25')
+            e.place(x=700, y=50*(i+4),height=50,width=300)
+            entries.append(e)
+        
+        def play():
+            results= []
+            for i in range(len(cup.matches)):
+                result = entries[i].get().split('-')
+                results.append(result)
+            cup.play(results)
+            #show next stage of knockout
+            if len(cup.teams) > 1:
+                showKnockout(cup)
+            else:
+                #show winner
+                tk.Label(currentFrame, text=f'Winner: {cup.winner()}', font='times 25').place(x=200, y=150+50*(len(cup.matches)+4))
+                button6.config(state='normal')
+                button6.config(command=lambda:show_frame(frame5))
+            
+        #button play
+        tk.Button(currentFrame, text='Play', font='times 25', command=play).place(x=200, y=150+50*(len(cup.matches)+4))
 
 
     #==================Frame 5 code
@@ -149,7 +177,7 @@ def wide(groups):
     button7 = tk.Button(frame5,text='Group Stage',font=('Helvetica bold', 26),command=lambda:show_frame(frame2))
     button7.place(x=320, y=270, height=100, width=400)
 
-    button8 = tk.Button(frame5,text='Knockout Stage',font=('Helvetica bold', 26),command=lambda:show_frame(frame4))
+    button8 = tk.Button(frame5,text='Knockout Stage',font=('Helvetica bold', 26),command=lambda:showKnockout(Cup(qualified_teams)))
     button8.place(x=320, y=390, height=100, width=400)
 
     button9 = tk.Button(frame5,text='Show Winners',font=('Helvetica bold', 26),command=lambda:show_frame(frame6))
